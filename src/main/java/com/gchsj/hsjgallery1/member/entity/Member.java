@@ -1,8 +1,9 @@
 package com.gchsj.hsjgallery1.member.entity;
 
 import com.gchsj.hsjgallery1.common.vo.BasicEntityVo;
-import com.gchsj.hsjgallery1.gallery.entity.GalleryRegistration;
+import com.gchsj.hsjgallery1.gallery.entity.Gallery;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -10,11 +11,12 @@ import java.util.List;
 
 @Entity
 @Table(name = "MEMBER")
-@Setter
-@Getter
-@ToString
+@Data
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true, exclude = "galleries")
 @NoArgsConstructor
-@Builder
+@AllArgsConstructor
+@SuperBuilder
 public class Member extends BasicEntityVo {
 
     @Id
@@ -25,6 +27,7 @@ public class Member extends BasicEntityVo {
     private String email;
     private String nickname;
 
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
-    private List<GalleryRegistration> galleryRegistrations = new ArrayList<>();
+    @OneToMany
+    @JoinColumn(name = "member_id")
+    private List<Gallery> galleries = new ArrayList<>();
 }

@@ -1,19 +1,20 @@
 package com.gchsj.hsjgallery1.gallery.entity;
 
 import com.gchsj.hsjgallery1.common.vo.BasicEntityVo;
+import com.gchsj.hsjgallery1.member.entity.Member;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "GALLERY")
-@Setter
-@Getter
-@ToString
+@Data
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 @NoArgsConstructor
-@Builder
+@AllArgsConstructor
+@SuperBuilder
 public class Gallery extends BasicEntityVo {
 
     @Id
@@ -22,6 +23,7 @@ public class Gallery extends BasicEntityVo {
     private String title;
     private String text;
 
-    @OneToMany(mappedBy = "gallery", fetch = FetchType.LAZY)
-    private List<GalleryRegistration> galleryRegistrations = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name="member_id", insertable = false, updatable = false)
+    private Member member;
 }
